@@ -45,7 +45,7 @@ require_once("./ejercicio1.php")
     }
     echo saludar("nombre");
   ?>
-  <form action="" method="post">
+  <form action="<?=htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
     <input type="number" name="num1" id="num1" value="<?=isset($_POST["num1"]) ? $_POST["num1"] : "" ?>" required>
     <input type="number" name="num2" id="num2" value="<?=isset($_POST["num2"]) ? $_POST["num2"] : "" ?>" required>
     <button name="envio" value="enviado">Resta</button>

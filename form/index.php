@@ -15,24 +15,41 @@
   </style>
 </head>
 <body>
-  <form action="enviado.php">
+  <form action="<?=htmlspecialchars($_SERVER["PHP_SELF"])?>">
     <div class="field">
       <label for="nombre">Nombre</label>
-      <input type="text" name="nombre" id="nombre">
+      <input type="text" name="nombre" id="nombre" value=<?php if(isset($_GET["nombre"])) echo $_GET["nombre"] ?>>
     </div>
     <div class="field">
       <label>
-        Mujer <input type="radio" name="sexo" value="mujer">
+        Mujer <input <?php if(isset($_GET["sexo"]) && $_GET["sexo"]=="mujer") echo "checked" ?> type="radio" name="sexo" value="mujer">
       </label>
       <label>
-        Hombre <input type="radio" name="sexo" value="hombre">
+        Hombre <input <?php if(isset($_GET["sexo"]) && $_GET["sexo"]=="hombre") echo "checked" ?> type="radio" name="sexo" value="hombre">
       </label>
     </div>
     <div class="field">
       <label>
-        Comentarios <textarea name="comentarios"></textarea>
+        Comentarios <textarea name="comentarios"><?php if(isset($_GET["comentarios"])) echo $_GET["comentarios"] ?></textarea>
       </label>
     </div>
+    <?php 
+    $provincias = [
+      "C" => "A Coruña",
+      "L" => "Lugo",
+      "O" => "Ourense",
+      "P" => "Pontevedra"
+    ]
+    ?>
+    <select name="provincia" id="provincia">
+      <?php 
+        extract($_GET);
+        foreach($provincias as $value => $text){
+          $selected = (isset($provincia) && $value==$provincia) ? "selected" : "";  
+          echo "<option $selected value=$value>$text</option>";
+        }
+      ?>
+    </select>
     <button name="enviar">Enviar</button>
   </form>
 </body>

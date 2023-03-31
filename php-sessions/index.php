@@ -23,6 +23,11 @@
     <h2>Scripts 2</h2>
     <a href="./scripts2/script1_condicionales.php">ejercicio1</a><br>
     <a href="./scripts2/script2_break_continua.php">ejercicio2</a><br>
+    <a href="./scripts2/script3funciones-cadena.php">ejercicio3</a><br>
+    <a href="./scripts2/script4funciones-matematicas.php">ejercicio4</a><br>
+    <a href="./scripts2/script5switch.php">ejercicio5</a><br>
+    <a href="./scripts2/script6funciones.php">ejercicio6</a><br>
+    <a href="./scripts2/script7funciones-arreglos.php">ejercicio7</a><br>
   </div>
 </body>
 </html>
