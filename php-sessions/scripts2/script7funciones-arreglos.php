@@ -17,10 +17,11 @@ extract($tortilla);
 <head>
 	<meta charset="UTF-8">
   <link rel="shortcut icon" href="#" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 	<title>Tortilla</title>
 	<style>
 		table, td, th {
-			border: 1px solid #000;
+			border: 1px solid #fff;
 			border-collapse: collapse;
 		}
 	</style>
