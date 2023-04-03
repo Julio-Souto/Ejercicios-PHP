@@ -19,11 +19,11 @@
       <fieldset>
         <h1>Enviar Mensaje</h1>
         <label for="nombre">Nombre Completo *</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Pepito de los palotes" value="<?php if(isset($nombre)) echo trim($nombre);?>">
+        <input type="text" id="nombre" name="nombre" placeholder="Pepito de los palotes" value="<?php if(isset($nombre)) echo trim(htmlspecialchars($nombre));?>">
         <label for="email">Email *</label>
-        <input type="text" id="email" name="email" placeholder="pepito@palotes.com" value="<?php if(isset($email)) echo trim($email);?>">
+        <input type="text" id="email" name="email" placeholder="pepito@palotes.com" value="<?php if(isset($email)) echo trim(htmlspecialchars($email));?>">
         <label for="mensaje">Mensaje *</label>
-        <textarea name="mensaje" id="mensaje" cols="40" rows="5" placeholder="Mi mensaje"><?php if(isset($mensaje)) echo trim($mensaje);?></textarea>
+        <textarea name="mensaje" id="mensaje" cols="40" rows="5" placeholder="Mi mensaje"><?php if(isset($mensaje)) echo trim(htmlspecialchars($mensaje));?></textarea>
         <input type="checkbox" name="privacidad" id="privacidad" value="privacidad" 
         <?php if(isset($privacidad)) echo "checked";?>>
         <label for="privacidad" class="privacidad">Acepto la política de privacidad *</label>
@@ -43,7 +43,7 @@
               if($success)
               $errores .= "<mark>Mensaje enviado con éxito</mark>";
               else
-              $errores .= "<mark>No se pudo enviar el mensaje</mark><br>Email: ".$email."<br>Asunto: Ticket - ".$nombre."<br>Mensaje: ".$mensaje."<br>Error: ".error_get_last()['message'];
+              $errores .= "<mark>No se pudo enviar el mensaje</mark><br>Email: ".htmlspecialchars($email)."<br>Asunto: Ticket - ".htmlspecialchars($nombre)."<br>Mensaje: ".htmlspecialchars($mensaje)."<br>Error: ".error_get_last()['message'];
             }
           }
           ?>
