@@ -21,7 +21,7 @@
         <label for="nombre">Nombre Completo *</label>
         <input type="text" id="nombre" name="nombre" placeholder="Pepito de los palotes" value="<?php if(isset($nombre)) echo trim(htmlspecialchars($nombre));?>">
         <label for="email">Email *</label>
-        <input type="text" id="email" name="email" placeholder="pepito@palotes.com" value="<?php if(isset($email)) echo trim(htmlspecialchars($email));?>">
+        <input type="text" id="email" name="email" placeholder="pepito@palotes.com" value="<?php if(isset($email)) echo trim(filter_var($email, FILTER_SANITIZE_EMAIL));?>">
         <label for="mensaje">Mensaje *</label>
         <textarea name="mensaje" id="mensaje" cols="40" rows="5" placeholder="Mi mensaje"><?php if(isset($mensaje)) echo trim(htmlspecialchars($mensaje));?></textarea>
         <input type="checkbox" name="privacidad" id="privacidad" value="privacidad" 
@@ -33,7 +33,7 @@
             if($nombre=="")
             $errores .= "El campo <mark>Nombre Completo</mark> no puede estar vacío<br>";
             if(preg_match("/^[\w\.-]+@[a-z0-9\.]+\.[a-z]{2,3}$/i",$email)==0)
-            $errores .= "El email <mark>".$email."</mark> no es  válido<br>";
+            $errores .= "El email <mark>".filter_var($email, FILTER_SANITIZE_EMAIL)."</mark> no es  válido<br>";
             if($mensaje=="")
             $errores .= "El campo <mark>Mensaje</mark> no puede estar vacío<br>";
             if(!isset($privacidad))
@@ -43,7 +43,7 @@
               if($success)
               $errores .= "<mark>Mensaje enviado con éxito</mark>";
               else
-              $errores .= "<mark>No se pudo enviar el mensaje</mark><br>Email: ".htmlspecialchars($email)."<br>Asunto: Ticket - ".htmlspecialchars($nombre)."<br>Mensaje: ".htmlspecialchars($mensaje)."<br>Error: ".error_get_last()['message'];
+              $errores .= "<mark>No se pudo enviar el mensaje</mark><br>Email: ".filter_var($email, FILTER_SANITIZE_EMAIL)."<br>Asunto: Ticket - ".htmlspecialchars($nombre)."<br>Mensaje: ".htmlspecialchars($mensaje)."<br>Error: ".error_get_last()['message'];
             }
           }
           ?>
