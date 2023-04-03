@@ -10,6 +10,12 @@ array_push($tortilla["ingredientes"],"cebolla");
 //utilizar la functión extract() para extraer las variables y utilizarlas en la tabla siguiente
 extract($tortilla);
 
+function joinArray(array $ingredientes):string{
+	$string = "";
+	for($i = 0; $i < count($ingredientes); $i++)
+		$string .= $ingredientes[$i]." - ";
+	return substr($string, 0, strlen($string)-3);
+}
 
 ?>
 <!DOCTYPE html>
@@ -41,7 +47,7 @@ extract($tortilla);
 		</tr>
 		<tr>
 			<td><?=$tiempo?></td>
-			<td><?=join("-",$ingredientes)?></td>
+			<td><?=joinArray($ingredientes)?></td>
 			<td><?=$receta?></td>
 		</tr>
 		<tr>

@@ -1,0 +1,29 @@
+body{
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.container{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+fieldset{
+  padding: 1em;
+}
+#enviar{
+  display: block;
+  width: 100%;
+  margin-top: .5em;
+}
+h1{
+  margin-top: 0;
+}
+.privacidad{
+  margin-bottom: .5em;
+}
+#errores{
+  width: 32vw;
+}
