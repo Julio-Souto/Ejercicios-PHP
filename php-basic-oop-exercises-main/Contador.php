@@ -48,7 +48,7 @@
       if(isset($decrementar))
         $contador->decrement();
       ?>
-      <input type="number" name="contador1" id="contador1" value="<?php if(isset($contador1)) echo ((int)$contador->getContador()); else echo 0;?>">
+      <input type="number" name="contador1" id="contador1" readonly value="<?php if(isset($contador1)) echo ((int)$contador->getContador()); else echo 0;?>">
     </fieldset>
   </form>
 </body>
