@@ -64,25 +64,19 @@ session_start();
   }
 
   class Compra{
-    private array $alimentos = [];
-    private array $utensilios = [];
+    private array $productos = [];
     
-    public function __construct(array $alimentos, array $utensilios)
+    public function __construct(Alimento|Utensilio ...$productos)
     {
-      $this->alimentos = $alimentos;
-      $this->utensilios = $utensilios;
+      $this->productos = $productos;
     }
 
     public function getTicket():string{
       $precioTotal = 0;
       $mensaje = "";
-      foreach($this->alimentos as $alimento){
-        $precioTotal += $alimento->getPrecio();
-        $mensaje .= $alimento->dimeTipo()." - ".$alimento->getPrecio()."€";
-      }
-      foreach($this->utensilios as $utensilio){
-        $precioTotal += $utensilio->getPrecio();
-        $mensaje .= $utensilio->dimeTipo()." - ".$utensilio->getPrecio()."€";
+      foreach($this->productos as $producto){
+        $precioTotal += $producto->getPrecio();
+        $mensaje .= $producto->dimeTipo()." - ".$producto->getPrecio()."€";
       }
       return $mensaje."<br>Precio Total: ".$precioTotal."€";
     }
@@ -104,7 +98,7 @@ session_start();
 
   $alimentos = [$alimento1,$alimento2,$alimento3];
   $utensilios = [$utensilio1,$utensilio2];
-  $compra = new Compra($alimentos,$utensilios);
+  $compra = new Compra(...$alimentos,...$utensilios);
   echo $compra->getTicket();
   $alimentosCesta = $_SESSION["acesta"]??[];
   $utensiliosCesta = $_SESSION["ucesta"]??[];
@@ -151,17 +145,19 @@ session_start();
             $nuevo = new Alimento($nombre,(isset($descuento))?Producto::aplicarDescuento25($precio):$precio,isset($caduca) ? true : false,($fecha=="")?null : new DateTime($fecha));
             $alimentosCesta[] = $nuevo;
             $_SESSION["acesta"]=$alimentosCesta;
-            $mensaje = $nuevo->dimeTipo()." - ".$nuevo->getPrecio()."€";
+            $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
+            $mensaje = $compra->getTicket();
           }
           else{
             $nuevo = new Utensilio($nombre,(isset($descuento))?Producto::aplicarDescuento25($precio):$precio);
             $utensiliosCesta[] = $nuevo;
             $_SESSION["ucesta"]=$utensiliosCesta;
-            $mensaje = $nuevo->dimeTipo()." - ".$nuevo->getPrecio()."€";
+            $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
+            $mensaje = $compra->getTicket();
           }
         }
         if(isset($comprar)){
-          $compra = new Compra($alimentosCesta,$utensiliosCesta);
+          $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
           $mensaje = $compra->getTicket();
           session_destroy();
         }
