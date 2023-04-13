@@ -48,7 +48,7 @@ session_start();
       else{
         $this->mensaje="No tiene caducidad";
       }
-      return "<br>Alimento - ".$this->getNombre()." - ".$this->mensaje;
+      return "Alimento - ".$this->getNombre()." - ".$this->mensaje;
     }
 
     public function getFecha():string{
@@ -59,26 +59,35 @@ session_start();
   class Utensilio extends Producto{
     public function dimeTipo(): string
     {
-      return "<br>Utensilio - ".$this->nombreProducto;
+      return "Utensilio - ".$this->nombreProducto;
     }
   }
 
   class Compra{
     private array $productos = [];
+    private float $precioTotal = 0;
     
     public function __construct(Alimento|Utensilio ...$productos)
     {
       $this->productos = $productos;
     }
 
+    public function getProducts():array{
+      return $this->productos;
+    }
+
     public function getTicket():string{
-      $precioTotal = 0;
+      $this->precioTotal = 0;
       $mensaje = "";
       foreach($this->productos as $producto){
-        $precioTotal += $producto->getPrecio();
-        $mensaje .= $producto->dimeTipo()." - ".$producto->getPrecio()."€";
+        $this->precioTotal += $producto->getPrecio();
+        $mensaje .= "<br>".$producto->dimeTipo()." - ".$producto->getPrecio()."€";
       }
-      return $mensaje."<br>Precio Total: ".$precioTotal."€";
+      return $mensaje."<br>Precio Total: ".$this->precioTotal."€";
+    }
+
+    public function getPrecioTotal():float{
+      return $this->precioTotal;
     }
   }
 
@@ -86,20 +95,20 @@ session_start();
   $alimento2 = new Alimento("alimento2",10.20,true,new DateTime("02-06-2022"));
   $alimento3 = new Alimento("alimento3",22.80,false);
 
-  echo $alimento1->dimeTipo();
-  echo $alimento2->dimeTipo();
-  echo $alimento3->dimeTipo();
+  // echo "<br>".$alimento1->dimeTipo();
+  // echo "<br>".$alimento2->dimeTipo();
+  // echo "<br>".$alimento3->dimeTipo();
 
   $utensilio1 = new Utensilio("utensilio1",30.10);
   $utensilio2 = new Utensilio("utensilio2",10.10);
 
-  echo $utensilio1->dimeTipo();
-  echo $utensilio2->dimeTipo();
+  // echo "<br>".$utensilio1->dimeTipo();
+  // echo "<br>".$utensilio2->dimeTipo();
 
   $alimentos = [$alimento1,$alimento2,$alimento3];
   $utensilios = [$utensilio1,$utensilio2];
   $compra = new Compra(...$alimentos,...$utensilios);
-  echo $compra->getTicket();
+  // echo $compra->getTicket();
   $alimentosCesta = $_SESSION["acesta"]??[];
   $utensiliosCesta = $_SESSION["ucesta"]??[];
   $mensaje = "";
@@ -114,8 +123,14 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   <title>Document</title>
+  <style>
+    td{
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+  <h1>Productos</h1>
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <fieldset>
       <label for="nombre">Nombre Producto</label>
@@ -145,25 +160,37 @@ session_start();
             $nuevo = new Alimento($nombre,(isset($descuento))?Producto::aplicarDescuento25($precio):$precio,isset($caduca) ? true : false,($fecha=="")?null : new DateTime($fecha));
             $alimentosCesta[] = $nuevo;
             $_SESSION["acesta"]=$alimentosCesta;
-            $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
-            $mensaje = $compra->getTicket();
           }
           else{
             $nuevo = new Utensilio($nombre,(isset($descuento))?Producto::aplicarDescuento25($precio):$precio);
             $utensiliosCesta[] = $nuevo;
             $_SESSION["ucesta"]=$utensiliosCesta;
-            $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
-            $mensaje = $compra->getTicket();
           }
         }
         if(isset($comprar)){
-          $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
-          $mensaje = $compra->getTicket();
           session_destroy();
         }
+        $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
+        $mensaje = $compra->getTicket();
       ?>
     </fieldset>
-    <p><?=$mensaje?></p>
+    <table>
+      <thead>
+        <td>Producto</td>
+        <td>Tipo/Caducidad</td>
+        <td>Precio</td>
+      </thead>
+      <tbody>
+        <?php
+        foreach($compra->getProducts() as $product){
+          echo "<tr><td>".$product->getNombre()."</td>"."<td>".$product->dimeTipo()."</td>"."<td>".$product->getPrecio()."€</td></tr>";
+        }
+        ?>
+      </tbody>
+      <tfoot>
+        <td colspan="3"><?="Precio Total: ".$compra->getPrecioTotal()."€"?></td>
+      </tfoot>
+    </table>
   </form>
 </body>
 </html>
