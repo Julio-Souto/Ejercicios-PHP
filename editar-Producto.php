@@ -1,4 +1,5 @@
 <?php
+  ob_start();
   require_once("./abstract-Products.php");
   $producto = $_SESSION["products"][$_GET["key"]];
   $tipoS = trim(explode("-",$producto->dimeTipo())[0]);
