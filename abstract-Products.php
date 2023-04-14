@@ -51,6 +51,10 @@ session_start();
       return "Alimento - ".$this->getNombre()." - ".$this->mensaje;
     }
 
+    public function getCaduco():bool {
+      return $this->tieneCaducidad;
+    }
+
     public function getFecha():string{
       return $this->fechaCaducidad->format("d-m-Y");
     }
@@ -109,8 +113,7 @@ session_start();
   $utensilios = [$utensilio1,$utensilio2];
   $compra = new Compra(...$alimentos,...$utensilios);
   // echo $compra->getTicket();
-  $alimentosCesta = $_SESSION["acesta"]??[];
-  $utensiliosCesta = $_SESSION["ucesta"]??[];
+  $productos = $_SESSION["products"]??[];
   $mensaje = "";
   extract($_POST);
 ?>
@@ -126,6 +129,7 @@ session_start();
   <style>
     td{
       text-align: center;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -143,7 +147,7 @@ session_start();
         <option value="utensilio">Utensilio</option>
       </select>
       <div>
-        <input type="checkbox" name="caduca" id="caduca"?>
+        <input type="checkbox" name="caduca" id="caduca">
         <label for="caduca">Es caduco?</label>
       </div>
       <label for="fecha">Fecha de caducidad</label>
@@ -158,19 +162,19 @@ session_start();
         if(isset($añadir)&&$nombre!=""&&$precio!=""){
           if(isset($tipo)&&$tipo=="alimento"){
             $nuevo = new Alimento($nombre,(isset($descuento))?Producto::aplicarDescuento25($precio):$precio,isset($caduca) ? true : false,($fecha=="")?null : new DateTime($fecha));
-            $alimentosCesta[] = $nuevo;
-            $_SESSION["acesta"]=$alimentosCesta;
+            $productos[] = $nuevo;
+            $_SESSION["products"]=$productos;
           }
           else{
             $nuevo = new Utensilio($nombre,(isset($descuento))?Producto::aplicarDescuento25($precio):$precio);
-            $utensiliosCesta[] = $nuevo;
-            $_SESSION["ucesta"]=$utensiliosCesta;
+            $productos[] = $nuevo;
+            $_SESSION["products"]=$productos;
           }
         }
         if(isset($comprar)){
           session_destroy();
         }
-        $compra = new Compra(...$alimentosCesta,...$utensiliosCesta);
+        $compra = new Compra(...$productos);
         $mensaje = $compra->getTicket();
       ?>
     </fieldset>
@@ -182,9 +186,15 @@ session_start();
       </thead>
       <tbody>
         <?php
-        foreach($compra->getProducts() as $product){
-          echo "<tr><td>".$product->getNombre()."</td>"."<td>".$product->dimeTipo()."</td>"."<td>".$product->getPrecio()."€</td></tr>";
-        }
+        foreach($compra->getProducts() as $key => $product):
+        ?>
+          <tr>
+            <td><?=$product->getNombre()?><a href="./eliminar-Producto.php?key=<?=$key?>"><img width="24" src="./trash.svg" alt="Eliminar"></a><a href="./editar-Producto.php?key=<?=$key?>"><img width="24" src="./edit.svg" alt="Eliminar"></a></td>
+            <td><?=$product->dimeTipo();?></td>
+            <td><?=$product->getPrecio()."€";?></td>
+          </tr>
+        <?php
+        endforeach;
         ?>
       </tbody>
       <tfoot>
