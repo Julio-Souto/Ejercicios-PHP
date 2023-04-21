@@ -10,11 +10,13 @@
   $acierto3=false;
   $acierto4=false;
   $acierto5=false;
+  $count=0;
 
   if(isset($enviar)){
     if($ejercicio1 == "resp11"){
       $solucion1="Respuesta correcta";
       $acierto1=true;
+      $count++;
     }
     else{
       $solucion1="Respuesta incorrecta";
@@ -22,6 +24,7 @@
     if($ejercicio2 == "resp24"){
       $solucion2="Respuesta correcta";
       $acierto2=true;
+      $count++;
     }
     else{
       $solucion2="Respuesta incorrecta";
@@ -29,6 +32,7 @@
     if($ejercicio3 == "resp33"){
       $solucion3="Respuesta correcta";
       $acierto3=true;
+      $count++;
     }
     else{
       $solucion3="Respuesta incorrecta";
@@ -36,6 +40,7 @@
     if($ejercicio4 == "resp44"){
       $solucion4="Respuesta correcta";
       $acierto4=true;
+      $count++;
     }
     else{
       $solucion4="Respuesta incorrecta";
@@ -43,6 +48,7 @@
     if($ejercicio5 == "resp53"){
       $solucion5="Respuesta correcta";
       $acierto5=true;
+      $count++;
     }
     else{
       $solucion5="Respuesta incorrecta";
@@ -158,6 +164,7 @@
     <p <?php echo (($acierto5) ? 'class="acierto"' : 'class="error"'); ?>><?=$solucion5;?></p>
     <br>
     <button name="enviar">Enviar</button>
+    <p><?php echo (isset($enviar)?"Total de aciertos: ".$count."/5":"");?></p>
   </form>
 </body>
 </html>
