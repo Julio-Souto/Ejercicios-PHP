@@ -1,6 +1,53 @@
 <?php
   extract($_POST);
   $solucion1="";
+  $solucion2="";
+  $solucion3="";
+  $solucion4="";
+  $solucion5="";
+  $acierto1=false;
+  $acierto2=false;
+  $acierto3=false;
+  $acierto4=false;
+  $acierto5=false;
+
+  if(isset($enviar)){
+    if($ejercicio1 == "resp11"){
+      $solucion1="Respuesta correcta";
+      $acierto1=true;
+    }
+    else{
+      $solucion1="Respuesta incorrecta";
+    }
+    if($ejercicio2 == "resp24"){
+      $solucion2="Respuesta correcta";
+      $acierto2=true;
+    }
+    else{
+      $solucion2="Respuesta incorrecta";
+    }
+    if($ejercicio3 == "resp33"){
+      $solucion3="Respuesta correcta";
+      $acierto3=true;
+    }
+    else{
+      $solucion3="Respuesta incorrecta";
+    }
+    if($ejercicio4 == "resp44"){
+      $solucion4="Respuesta correcta";
+      $acierto4=true;
+    }
+    else{
+      $solucion4="Respuesta incorrecta";
+    }
+    if($ejercicio5 == "resp53"){
+      $solucion5="Respuesta correcta";
+      $acierto5=true;
+    }
+    else{
+      $solucion5="Respuesta incorrecta";
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +60,12 @@
   <style>
     h3{
       text-align: center;
+    }
+    .error{
+      color: red;
+    }
+    .acierto{
+      color: green;
     }
   </style>
 </head>
@@ -38,7 +91,7 @@
       <?php if(isset($ejercicio1) && $ejercicio1 == "resp14") echo "checked"; ?>>
       <label for="resp14"><?php echo htmlspecialchars("<body></body>"); ?></label></div>
     </div>
-    <p><?=$solucion1;?></p>
+    <p <?php echo (($acierto1) ? 'class="acierto"' : 'class="error"'); ?>><?=$solucion1;?></p>
     <p>2. ¿Con qué símbolo se debe empezar el nombre de una variable en PHP?</p>
     <div class="radios">
       <div><input type="radio" name="ejercicio2" id="resp21" value="resp21" required
@@ -54,6 +107,7 @@
       <?php if(isset($ejercicio2) && $ejercicio2 == "resp24") echo "checked"; ?>>
       <label for="resp24"><?php echo htmlspecialchars("$"); ?></label></div>
     </div>
+    <p <?php echo (($acierto2) ? 'class="acierto"' : 'class="error"'); ?>><?=$solucion2;?></p>
     <p>3. ¿Con qué símbolo se debe envolver un valor numérico en una variable?</p>
     <div class="radios">
       <div><input type="radio" name="ejercicio3" id="resp31" value="resp31" required
@@ -69,6 +123,7 @@
       <?php if(isset($ejercicio3) && $ejercicio3 == "resp34") echo "checked"; ?>>
       <label for="resp34"><?php echo htmlspecialchars("="); ?></label></div>
     </div>
+    <p <?php echo (($acierto3) ? 'class="acierto"' : 'class="error"'); ?>><?=$solucion3;?></p>
     <p>4. ¿Cuál de las siguientes variables está declarada de forma correcta?</p>
     <div class="radios">
       <div><input type="radio" name="ejercicio4" id="resp41" value="resp41" required
@@ -84,6 +139,7 @@
       <?php if(isset($ejercicio4) && $ejercicio4 == "resp44") echo "checked"; ?>>
       <label for="resp44"><?php echo htmlspecialchars("\$edad = 25;"); ?></label></div>
     </div>
+    <p <?php echo (($acierto4) ? 'class="acierto"' : 'class="error"'); ?>><?=$solucion4;?></p>
     <p>5. ¿Cuáles son los operadores relacionales?</p>
     <div class="radios">
       <div><input type="radio" name="ejercicio5" id="resp51" value="resp51" required 
@@ -99,18 +155,9 @@
       <?php if(isset($ejercicio5) &&$ejercicio5 == "resp54") echo "checked"; ?>>
       <label for="resp54"><?php echo htmlspecialchars("$, &, //, /* */, { }"); ?></label></div>
     </div>
+    <p <?php echo (($acierto5) ? 'class="acierto"' : 'class="error"'); ?>><?=$solucion5;?></p>
     <br>
     <button name="enviar">Enviar</button>
   </form>
-  <?php
-    if(isset($enviar)){
-      if($ejercicio1 == "resp11"){
-        $solucion1="Respuesta correcta";
-      }
-      else{
-        $solucion1="Respuesta incorrecta";
-      }
-    }
-  ?>
 </body>
 </html>
